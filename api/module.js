@@ -1,4 +1,4 @@
-var Api = function(Instagram, express, store, bodyParser, Bot, CronJob) {
+var Api = function(Instagram, express, store, bodyParser, Bot) {
 	var instance;
 
 	function init() {
@@ -41,20 +41,13 @@ var Api = function(Instagram, express, store, bodyParser, Bot, CronJob) {
 		//Remove Tag
 		app.delete('/removeTag', Bot.removeTag);
 
+		//Like for tags that all users have
+		app.get('/like', Bot.like);
 
-		app.get('/like', Bot.autoLike);
+		app.get('/startAutoLike',Bot.startAutoLike);
+		app.get('/stopAutoLike', Bot.stopAutoLike);
 
-		//Job got autoLike
-		// var job = new CronJob('* * * * *', function() {
-		// 		var currentdate = new Date();
-		// 		var datetime = "Last Sync: " + currentdate.getDate() + "/" + (currentdate.getMonth() + 1) + "/" + currentdate.getFullYear() + " @ " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-		// 		console.log(datetime);
-		// 	}, function() {
-		// 		console.log('/nONUR')
-		// 	},
-		// 	true, /* Start the job right now */
-		// 	'Europe/Istanbul' /* Time zone of this job. */
-		// );
+
 
 
 

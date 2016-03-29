@@ -12,7 +12,7 @@ var express = require('express'),
 
 Instagram.set('client_id', '5c4891f0cb6f4865b818d4b40d17edde');
 Instagram.set('client_secret', '8b2f847113254893a7cc13f725dfbfe7');
-Instagram.set('redirect_uri', 'http://localhost:3000/auth/callback');
+Instagram.set('redirect_uri', 'http://onurburak.com/auth/callback');
 
 
 /*
@@ -32,9 +32,9 @@ var StoreFactory = require(path.join('lib', 'StoreFactory'));
 var storeFactory = new StoreFactory();
 var store = storeFactory.getStore(Q, async, _, mongoDb);
 
-var Bot = require(path.join('lib', 'bot'))(Instagram, store, _, Q).getInstance();
+var Bot = require(path.join('lib', 'bot'))(Instagram, store, _, Q,CronJob).getInstance();
 
-var app = require(path.join('api'))(Instagram, express, store, bodyParser, Bot, CronJob).getInstance();
+var app = require(path.join('api'))(Instagram, express, store, bodyParser, Bot).getInstance();
 
 //Create here a cronjob that call Bot.autoLike
 
