@@ -11,7 +11,8 @@ var Api = function(Instagram, express, store, bodyParser, Bot) {
 			extended: true
 		}));
 
-		app.get('/',function (req,res) {
+		app.get('/test',function (req,res) {
+			console.log("TEST");
 			res.send({
 				code:200,
 				message:'SUCCESS'
