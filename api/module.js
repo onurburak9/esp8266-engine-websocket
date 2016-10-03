@@ -21,7 +21,7 @@ var Api = function(Instagram, express, store, bodyParser, Bot) {
 
 
 		app.get('/getByTagName', function(req, res) {
-			Instagram.set('access_token', '20581734.1fb234f.d1ee7fe4bb524aa4b2d9fda9a4372259');
+			Instagram.set('access_token', '3262318851.9330f28.4e92938ed0474290a4b26f35a25943d4');
 
 			var tag = req.query.tag;
 			Instagram.tags.recent({

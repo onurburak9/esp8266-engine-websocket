@@ -10,8 +10,8 @@ var express = require('express'),
 	mongoSkin = require('mongoskin'),
 	CronJob = require('cron').CronJob;
 
-Instagram.set('client_id', '5c4891f0cb6f4865b818d4b40d17edde');
-Instagram.set('client_secret', '8b2f847113254893a7cc13f725dfbfe7');
+Instagram.set('client_id', '9330f285f0534e66a5a7efa2f41801ee');
+Instagram.set('client_secret', 'ead119fdbc3f4082881bdbca4d36d06d');
 Instagram.set('redirect_uri', 'http://onurburak.com/auth/callback');
 
 
