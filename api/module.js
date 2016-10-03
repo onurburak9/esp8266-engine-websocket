@@ -11,6 +11,13 @@ var Api = function(Instagram, express, store, bodyParser, Bot) {
 			extended: true
 		}));
 
+		app.get('/',function (req,res) {
+			res.send({
+				code:200,
+				message:'SUCCESS'
+			})
+		})
+
 
 		app.get('/getByTagName', function(req, res) {
 			Instagram.set('access_token', '20581734.1fb234f.d1ee7fe4bb524aa4b2d9fda9a4372259');
