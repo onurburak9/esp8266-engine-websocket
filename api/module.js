@@ -1,4 +1,4 @@
-var Api = function(Instagram, express, store, bodyParser, Bot) {
+var Api = function(Instagram, express, store, bodyParser, Bot,path) {
 	var instance;
 
 	function init() {
@@ -10,6 +10,9 @@ var Api = function(Instagram, express, store, bodyParser, Bot) {
 		app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 			extended: true
 		}));
+
+		//-- serves static files
+		app.use('/', express.static(path.join('oby')));
 
 		app.get('/test',function (req,res) {
 			console.log("TEST");
