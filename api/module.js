@@ -13,6 +13,7 @@ var Api = function(Instagram, express, store, bodyParser, Bot,path) {
 
 		//-- serves static files
 		app.use('/', express.static(path.join('oby')));
+		app.use('/404', express.static(path.join('oby') + "/404.html"));
 
 		app.get('/test',function (req,res) {
 			console.log("TEST");
@@ -57,6 +58,10 @@ var Api = function(Instagram, express, store, bodyParser, Bot,path) {
 
 		app.get('/startAutoLike',Bot.startAutoLike);
 		app.get('/stopAutoLike', Bot.stopAutoLike);
+
+		app.get('*',function(req,res){
+			res.redirect('/404');
+		});
 
 
 
