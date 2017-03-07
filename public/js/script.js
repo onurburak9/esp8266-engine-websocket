@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var lastMove = 0;
   //socket connection and events
-  var socket = io('http://localhost:3000');
+  var socket = io('http://esp.ananas.life/');
   socket.on('connect', function() {
     console.log("CONNECTED");
   });
