@@ -63,9 +63,11 @@ $(document).ready(function() {
     var now = Date.now();
     if (lastMove + 200 < now) {
       lastMove = now;
+      left=Math.round(left);
+      right=Math.round(right);
       var obj = {
-        Math.round(left),
-        Math.round(right)
+        left,
+        right
       };
       socket.emit('engines', obj);
     }
