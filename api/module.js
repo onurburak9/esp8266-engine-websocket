@@ -10,7 +10,8 @@ var Api = function(express, bodyParser, path, expressApp, io, http, qs, WebSocke
 		app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 			extended: true
 		}));
-		var left, right = 0
+		var left=0
+		var right = 0
 
 		//-- serves static files
 		app.use('/', express.static(path.join('public')));
