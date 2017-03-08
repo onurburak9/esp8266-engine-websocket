@@ -5,10 +5,10 @@ $(document).ready(function() {
   socket.on('connect', function() {
     console.log("CONNECTED");
   });
-  socket.on('started',function(){
+  socket.on('started', function() {
     console.log('started');
   });
-  socket.on('stopped',function(){
+  socket.on('stopped', function() {
     console.log('stopped');
   })
   socket.on('disconnect', function() {
@@ -28,10 +28,11 @@ $(document).ready(function() {
     move(-600, -600);
   });
 
+
   $("a.start").click(function() {
     socket.emit("start");
   });
-    $("a.stop").click(function() {
+  $("a.stop").click(function() {
     socket.emit("stop");
   });
 
@@ -45,16 +46,16 @@ $(document).ready(function() {
   document.onkeydown = function detectKey(event) {
     var e = event.keyCode;
     if (e == 87) { //W
-      move(600, 600);
+      move(1000, 1000);
     }
     if (e == 83) { //S
-      move(600, -600);
+      move(1000, -1000);
     }
     if (e == 65) { //A
-      move(-600, 600);
+      move(-1000, 1000);
     }
     if (e == 68) { //D
-      move(-600, -600);
+      move(-1000, -1000);
     }
   }
 
@@ -63,8 +64,8 @@ $(document).ready(function() {
     if (lastMove + 200 < now) {
       lastMove = now;
       var obj = {
-        left,
-        right
+        Math.round(left),
+        Math.round(right)
       };
       socket.emit('engines', obj);
     }
@@ -75,25 +76,36 @@ $(document).ready(function() {
     acceleration = eventData.accelerationIncludingGravity;
     var left = 0;
     var right = 0;
-    if (Math.abs(acceleration.y) > 1) {
-      var speed = acceleration.y * 123;
-      left = Math.min(1023, speed + acceleration.x * 100);
-      right = Math.min(1023, speed - acceleration.x * 100);
-    } else if (Math.abs(acceleration.x) > 1) {
-      var speed = Math.min(1023, Math.abs(acceleration.x) * 123);
-      if (acceleration.x > 0) {
-        left = speed;
-        right = -speed;
+    if (Math.abs(acceleration.y) > 1) { // back-/forward
+      if (acceleration.y > 0) { // add 300 to decrease dead zone
+        left = Math.min(1023, speed + acceleration.x * 40 + 300);
+        right = Math.min(1023, speed - acceleration.x * 40 + 300);
+
       } else {
-        left = -speed;
-        right = speed;
+        left = Math.max(-1023, speed + acceleration.x * 40 - 300);
+        right = Math.max(-1023, speed - acceleration.x * 40 - 300);
+
+      }
+    } else if (Math.abs(acceleration.x) > 1) { // circle only
+      var speed = Math.min(1023, Math.abs(acceleration.x) * 100);
+      if (acceleration.x > 0) {
+        left = Math.min(1023, speed + 300);
+        right = Math.max(-1023, -speed - 300);
+      } else {
+        left = Math.max(-1023, -speed - 300);
+        right = Math.min(1023, speed + 300);
       }
     }
-    if (Math.abs(left) > 100 || Math.abs(right) > 100) {
+    if (Math.abs(left) > 200 || Math.abs(right) > 200) {
       move(left, right);
     }
-    var direction = "stop";
-    direction = "[" + Math.round(acceleration.x) + "," + Math.round(acceleration.y) + "," + Math.round(acceleration.z) + "]<BR/>" + Math.round(left) + ", " + Math.round(right);
+    var acc_x = Math.round(acceleration.x);
+    var acc_y = Math.round(acceleration.y);
+    var acc_z = Math.round(acceleration.z);
+    var leftD = Math.round(-left);
+    var rightD = Math.round(-right);
+
+    direction = "[" + acc_x + "," + acc_y + "," + acc_z + "]<BR/>" + leftD + ", " + rightD + "<BR/>version: " + version;
     document.getElementById("vector").innerHTML = direction;
   }
 });
