@@ -5,7 +5,12 @@ $(document).ready(function() {
   socket.on('connect', function() {
     console.log("CONNECTED");
   });
-  socket.on('event', function(data) {});
+  socket.on('started',function(){
+    console.log('started');
+  });
+  socket.on('stopped',function(){
+    console.log('stopped');
+  })
   socket.on('disconnect', function() {
     console.log("disconnected");
   });
@@ -21,6 +26,13 @@ $(document).ready(function() {
   });
   $("a.right").click(function() {
     move(-600, -600);
+  });
+
+  $("a.start").click(function() {
+    socket.emit("start");
+  });
+    $("a.stop").click(function() {
+    socket.emit("stop");
   });
 
   //Check for if it's a mobile device or not

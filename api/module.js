@@ -10,8 +10,9 @@ var Api = function(express, bodyParser, path, expressApp, io, http, qs, WebSocke
 		app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 			extended: true
 		}));
-		var left=0
+		var left = 0
 		var right = 0
+		var isWorking = false;
 
 		//-- serves static files
 		app.use('/', express.static(path.join('public')));
@@ -26,14 +27,26 @@ var Api = function(express, bodyParser, path, expressApp, io, http, qs, WebSocke
 		app.get('/reset', function(req, res) {
 			left = 0;
 			right = 0;
+
+			res.send({
+				code: 200,
+				message: 'SUCCESS'
+			});
 		});
 		app.get('/getValues', function(req, res) {
 			console.log("get value request");
-			res.send({
-				left: left,
-				right: right
-			});
+			if (isWorking)
+				res.send({
+					left: left,
+					right: right
+				});
+			else
+				res.send({
+					left: 0,
+					right: 0
+				});
 		});
+
 		// wsServer = new WebSocketServer({
 		// 	httpServer: httpServer,
 		// 	autoAcceptConnections: false
@@ -43,7 +56,7 @@ var Api = function(express, bodyParser, path, expressApp, io, http, qs, WebSocke
 		// 	var connection = request.accept('', request.origin);
 		// 	console.log((new Date()) + ' Connection accepted.');
 
-			
+
 		// 	connection.on('close', function(reasonCode, description) {
 		// 		console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
 		// 	});
@@ -55,8 +68,14 @@ var Api = function(express, bodyParser, path, expressApp, io, http, qs, WebSocke
 				right = data.right;
 				console.log(data);
 			});
-			client.on('getValues', function() {
 
+			client.on('start', function(data) {
+				isWorking = true;
+				client.emit("started")
+			});
+			client.on('stop', function(data) {
+				isWorking = false;
+				client.emit("stopped");
 			})
 
 			client.on('disconnect', function() {
