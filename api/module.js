@@ -34,35 +34,35 @@ var Api = function(express, bodyParser, path, expressApp, io, http, qs, WebSocke
 				right: right
 			});
 		});
-		wsServer = new WebSocketServer({
-			httpServer: httpServer,
-			autoAcceptConnections: false
-		});
+		// wsServer = new WebSocketServer({
+		// 	httpServer: httpServer,
+		// 	autoAcceptConnections: false
+		// });
 
-		wsServer.on('request', function(request) {
-			var connection = request.accept('', request.origin);
-			console.log((new Date()) + ' Connection accepted.');
+		// wsServer.on('request', function(request) {
+		// 	var connection = request.accept('', request.origin);
+		// 	console.log((new Date()) + ' Connection accepted.');
+
 			
-			connection.on('getValue')
-			connection.on('close', function(reasonCode, description) {
-				console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
-			});
-		});
-
-		// io.on('connection', function(client) {
-		// 	client.on('engines', function(data) {
-		// 		left = data.left;
-		// 		right = data.right;
-		// 		console.log(data);
-		// 	});
-		// 	client.on('getValues', function() {
-
-		// 	})
-
-		// 	client.on('disconnect', function() {
-		// 		console.log("Client disconnected");
+		// 	connection.on('close', function(reasonCode, description) {
+		// 		console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
 		// 	});
 		// });
+
+		io.on('connection', function(client) {
+			client.on('engines', function(data) {
+				left = data.left;
+				right = data.right;
+				console.log(data);
+			});
+			client.on('getValues', function() {
+
+			})
+
+			client.on('disconnect', function() {
+				console.log("Client disconnected");
+			});
+		});
 
 		return app;
 	}
