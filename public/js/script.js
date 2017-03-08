@@ -107,7 +107,7 @@ $(document).ready(function() {
     var leftD = Math.round(-left);
     var rightD = Math.round(-right);
 
-    direction = "[" + acc_x + "," + acc_y + "," + acc_z + "]<BR/>" + leftD + ", " + rightD + "<BR/>version: " + version;
+    direction = "[" + acc_x + "," + acc_y + "," + acc_z + "]<BR/>" + leftD + ", " + rightD ;
     document.getElementById("vector").innerHTML = direction;
   }
 });
