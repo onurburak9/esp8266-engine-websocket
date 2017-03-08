@@ -9,10 +9,11 @@ httpServer = require('http').Server(expressApp),
 	async = require('async'),
 	bodyParser = require('body-parser'),
 	Q = require('q'),
-	qs = require('querystring');
+	qs = require('querystring'),
+	WebSocketServer = require('websocket').server;
 
 
-var app = require(path.join('api'))(express, bodyParser, path, expressApp, io, http,qs).getInstance();
+var app = require(path.join('api'))(express, bodyParser, path, expressApp, io, http, qs, WebSocketServer,httpServer).getInstance();
 
 
 httpServer.listen(app.get('port'), function() {

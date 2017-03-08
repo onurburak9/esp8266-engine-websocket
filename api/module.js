@@ -1,4 +1,4 @@
-var Api = function(express, bodyParser, path, expressApp, io,http,qs) {
+var Api = function(express, bodyParser, path, expressApp, io, http, qs, WebSocketServer, httpServer) {
 	var instance;
 
 	function init() {
@@ -10,6 +10,7 @@ var Api = function(express, bodyParser, path, expressApp, io,http,qs) {
 		app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 			extended: true
 		}));
+		var left, right = 0
 
 		//-- serves static files
 		app.use('/', express.static(path.join('public')));
@@ -21,26 +22,45 @@ var Api = function(express, bodyParser, path, expressApp, io,http,qs) {
 				message: 'SUCCESS'
 			})
 		});
+		app.get('/reset', function(req, res) {
+			left = 0;
+			right = 0;
+		});
+		app.get('/getValues', function(req, res) {
+			console.log("get value request");
+			res.send({
+				left: left,
+				right: right
+			});
+		});
+		wsServer = new WebSocketServer({
+			httpServer: httpServer,
+			autoAcceptConnections: false
+		});
+
+		wsServer.on('request', function(request) {
+			var connection = request.accept('', request.origin);
+			console.log((new Date()) + ' Connection accepted.');
+			
+			connection.on('getValue')
+			connection.on('close', function(reasonCode, description) {
+				console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+			});
+		});
 
 		io.on('connection', function(client) {
 			client.on('engines', function(data) {
-				var left = data.left;
-				var right = data.right;
+				left = data.left;
+				right = data.right;
 				console.log(data);
-
-
-			var options = {
-				host: '172.20.10.6',
-				path: '/controlCar?' + qs.stringify(data),
-
-			}
-
-				http.get(options,function(response){
-					//codes going to add.
-				});
 			});
+			client.on('getValues', function() {
 
-			client.on('disconnect', function() {});
+			})
+
+			client.on('disconnect', function() {
+				console.log("Client disconnected");
+			});
 		});
 
 		return app;
