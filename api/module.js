@@ -48,20 +48,20 @@ var Api = function(express, bodyParser, path, expressApp, io, http, qs, WebSocke
 			});
 		});
 
-		io.on('connection', function(client) {
-			client.on('engines', function(data) {
-				left = data.left;
-				right = data.right;
-				console.log(data);
-			});
-			client.on('getValues', function() {
+		// io.on('connection', function(client) {
+		// 	client.on('engines', function(data) {
+		// 		left = data.left;
+		// 		right = data.right;
+		// 		console.log(data);
+		// 	});
+		// 	client.on('getValues', function() {
 
-			})
+		// 	})
 
-			client.on('disconnect', function() {
-				console.log("Client disconnected");
-			});
-		});
+		// 	client.on('disconnect', function() {
+		// 		console.log("Client disconnected");
+		// 	});
+		// });
 
 		return app;
 	}
