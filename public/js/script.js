@@ -16,16 +16,16 @@ $(document).ready(function() {
   });
 
   $("a.forward").click(function() {
-    move(600, 600);
+    move(800, 800);
   });
   $("a.back").click(function() {
-    move(600, -600);
+    move(-800, -800);
   });
   $("a.left").click(function() {
-    move(-600, 600);
+    move(-800, 800);
   });
   $("a.right").click(function() {
-    move(-600, -600);
+    move(-800, -800);
   });
 
 
@@ -43,6 +43,7 @@ $(document).ready(function() {
     document.getElementById("dmEvent").innerHTML = "Accelerometer not supported."
   }
 
+  //For Keyboard WASD
   document.onkeydown = function detectKey(event) {
     var e = event.keyCode;
     if (e == 87) { //W
@@ -77,7 +78,7 @@ $(document).ready(function() {
     var left = 0;
     var right = 0;
     if (Math.abs(acceleration.y) > 1) { // back-/forward
-      var speed = acceleration.y * 100;
+      var speed = acceleration.y * 200;
       left = Math.min(1023, speed + acceleration.x * 100);
       right = Math.min(1023, speed - acceleration.x * 100);
     } else if (Math.abs(acceleration.x) > 1) {

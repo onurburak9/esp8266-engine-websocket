@@ -34,7 +34,6 @@ var Api = function(express, bodyParser, path, expressApp, io, http, qs, WebSocke
 			});
 		});
 		app.get('/getValues', function(req, res) {
-			console.log("get value request");
 			if (isWorking)
 				res.send({
 					left: left,
