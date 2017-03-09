@@ -46,16 +46,16 @@ $(document).ready(function() {
   document.onkeydown = function detectKey(event) {
     var e = event.keyCode;
     if (e == 87) { //W
-      move(600, 600);
+      move(800, 800);
     }
     if (e == 83) { //S
-      move(600, -600);
+      move(-800, -800);
     }
     if (e == 65) { //A
-      move(-600, 600);
+      move(-800, 800);
     }
     if (e == 68) { //D
-      move(-600, -600);
+      move(800, -800);
     }
   }
 
