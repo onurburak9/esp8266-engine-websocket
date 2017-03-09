@@ -64,9 +64,12 @@ var Api = function(express, bodyParser, path, expressApp, io, http, qs, WebSocke
 
 		io.on('connection', function(client) {
 			client.on('engines', function(data) {
-				left = data.left;
-				right = data.right;
+				
 				console.log(data);
+				left =Math.round(data.left) ;
+				right =Math.round(data.right) ;
+				console.log(left,right);
+
 			});
 
 			client.on('start', function(data) {

@@ -64,8 +64,8 @@ $(document).ready(function() {
     if (lastMove + 200 < now) {
       lastMove = now;
       var obj = {
-        Math.round(left),
-        Math.round(right)
+        left,
+        right
       };
       socket.emit('engines', obj);
     }
