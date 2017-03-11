@@ -25,7 +25,7 @@ $(document).ready(function() {
     move(-800, 800);
   });
   $("a.right").click(function() {
-    move(-800, -800);
+    move(800, -800);
   });
 
 
@@ -33,7 +33,9 @@ $(document).ready(function() {
     socket.emit("start");
   });
   $("a.stop").click(function() {
+    move(0,0);
     socket.emit("stop");
+
   });
 
   //Check for if it's a mobile device or not
@@ -78,7 +80,7 @@ $(document).ready(function() {
     var left = 0;
     var right = 0;
     if (Math.abs(acceleration.y) > 1) { // back-/forward
-      var speed = acceleration.y * 200;
+      var speed = acceleration.y * 150;
       left = Math.min(1023, speed + acceleration.x * 100);
       right = Math.min(1023, speed - acceleration.x * 100);
     } else if (Math.abs(acceleration.x) > 1) {
@@ -92,6 +94,12 @@ $(document).ready(function() {
       }
     }
     if (Math.abs(left) > 100 || Math.abs(right) > 100) {
+      if(left<-1023){
+        left=-1023;
+      }
+      if(right<-1023){
+        right=-1023;
+      }
       move(left, right);
     }
     var direction = "stop";
